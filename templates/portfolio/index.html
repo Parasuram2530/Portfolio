@@ -30,6 +30,8 @@
             <div class="hero-buttons">
                 {% if site_data.profile.resume %}
                 <a href="{{ site_data.profile.resume.url }}" target="_blank" class="btn-primary">Download Resume</a>
+                {% else %}
+                <a href="/media/resumes/Parasu_Resume.pdf" target="_blank" class="btn-primary">Download Resume</a>
                 {% endif %}
                 <a href="#projects" class="btn-outline">View Projects</a>
                 
