@@ -7,7 +7,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-dummy-key-for-migrations')
 DEBUG = config('DEBUG', default=False, cast=bool)
 ENVIRONMENT = config('ENVIRONMENT', default='development')
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost', cast=lambda v: [s.strip() for s in v.split(',') if s.strip()])
+# Add PythonAnywhere host automatically if we can detect the username
+PYTHONANYWHERE_HOST = '.pythonanywhere.com'
+if PYTHONANYWHERE_HOST not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(PYTHONANYWHERE_HOST)
+
 
 # Security settings exclusively for production
 # This prevents accidental HSTS lockouts on localhost when testing with DEBUG=False
