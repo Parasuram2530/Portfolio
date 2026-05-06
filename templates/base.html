@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}{{ site_data.profile.name|default:"Parasuram" }} | {{ site_data.profile.tagline|default:"Portfolio" }}{% endblock %}</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="{{ site_data.profile.bio|truncatechars:150 }}">
+    <meta name="author" content="{{ site_data.profile.name|default:'M. Parasuram' }}">
+    
+    <!-- Open Graph / Twitter Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ site_data.profile.name|default:'Parasuram' }} | Portfolio">
+    <meta property="og:description" content="{{ site_data.profile.bio|truncatechars:150 }}">
+    {% if site_data.profile.profile_photo %}
+    <meta property="og:image" content="{{ request.build_absolute_uri }}{{ site_data.profile.profile_photo.url }}">
+    <meta name="twitter:image" content="{{ request.build_absolute_uri }}{{ site_data.profile.profile_photo.url }}">
+    {% endif %}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ site_data.profile.name|default:'Parasuram' }} | Portfolio">
+    <meta name="twitter:description" content="{{ site_data.profile.bio|truncatechars:150 }}">
+    
+    {% block meta_extra %}{% endblock %}
+
+
+    
+    <!-- Font Awesome 6 Free -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Devicons -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- Favicon placeholder -->
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
+    <!-- Theme Initialization -->
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="{% url 'portfolio:home' %}" class="nav-logo">
+                {% if site_data.profile.logo %}
+                    <img src="{{ site_data.profile.logo.url }}" alt="{{ site_data.profile.name }}" class="logo-img">
+                {% else %}
+                    <span class="bracket">&lt;</span>parasuram<span class="bracket">/&gt;</span>
+                {% endif %}
+            </a>
+            
+            <button class="mobile-toggle" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <ul class="nav-links">
+                <li><a href="{% url 'portfolio:home' %}#home" class="nav-link active">Home</a></li>
+                <li><a href="{% url 'portfolio:home' %}#about" class="nav-link">About</a></li>
+                <li><a href="{% url 'portfolio:home' %}#skills" class="nav-link">Skills</a></li>
+                <li><a href="{% url 'portfolio:home' %}#projects" class="nav-link">Projects</a></li>
+                <li><a href="{% url 'portfolio:home' %}#experience" class="nav-link">Experience</a></li>
+                <li><a href="{% url 'portfolio:home' %}#contact" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon moon-icon"></i>
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                </button>
+                {% if site_data.profile.resume %}
+                    <a href="{{ site_data.profile.resume.url }}" target="_blank" class="btn-hire">Hire Me</a>
+                {% else %}
+                    <a href="{% url 'portfolio:home' %}#contact" class="btn-hire">Hire Me</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <h2 class="footer-logo">M. Parasuram</h2>
+            <p class="footer-tagline">GenAI Developer · CSE-AIML · Nellore, India</p>
+            
+            <div class="footer-socials">
+                {% if site_data.profile.github_url %}
+                <a href="{{ site_data.profile.github_url }}" target="_blank" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                {% endif %}
+                {% if site_data.profile.linkedin_url %}
+                <a href="{{ site_data.profile.linkedin_url }}" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                {% endif %}
+                {% if site_data.profile.email %}
+                <a href="mailto:{{ site_data.profile.email }}" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                {% endif %}
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> M. Parasuram. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    {% block scripts_extra %}{% endblock %}
+</body>
+</html>
